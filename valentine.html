@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For My Valentine ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background:
+        linear-gradient(rgba(255, 117, 140, 0.75), rgba(255, 126, 179, 0.75)),
+        url("snehal.jpg") no-repeat center center / cover;
+    color: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+
+    .card {
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        width: 90%;
+        max-width: 420px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        animation: fadeIn 1s ease;
+        z-index: 10;
+    }
+
+    h1, h2 {
+        margin-bottom: 15px;
+    }
+
+    p {
+        font-size: 18px;
+        margin-bottom: 25px;
+    }
+
+    button {
+        background: #fff;
+        color: #ff4d6d;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 30px;
+        font-size: 16px;
+        margin: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.08);
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .no-btn {
+        position: relative;
+    }
+
+    /* Floating Hearts */
+    .heart {
+        position: absolute;
+        bottom: -20px;
+        font-size: 20px;
+        animation: float 8s linear infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0); opacity: 0; }
+        10% { opacity: 1; }
+        100% { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Background Music -->
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/audio/2022/10/30/audio_1d0c7c6d16.mp3" type="audio/mpeg">
+</audio>
+
+
+<div class="card" id="step1">
+    <div id="countdown" style="font-size:18px; margin-bottom:20px;">
+    ⏳ Counting moments till Valentine’s Day...
+</div>
+
+    <h1>Hey ❤️</h1>
+    <p>
+        Dear <strong>SNEHAL</strong>,  
+        I have something special to ask you today…
+    </p>
+    <button onclick="nextStep(1)">Start 💕</button>
+</div>
+
+<div class="card hidden" id="step2">
+    <h2>Do you remember our first conversation?</h2>
+    <button onclick="nextStep(2)">Yes 🥰</button>
+    <button onclick="nextStep(2)">Of course 😄</button>
+</div>
+
+<div class="card hidden" id="step3">
+    <h2>What makes us special?</h2>
+    <button onclick="nextStep(3)">Trust</button>
+    <button onclick="nextStep(3)">Friendship</button>
+    <button onclick="nextStep(3)">Love ❤️</button>
+    <button onclick="nextStep(3)">ALL of the Above</button>
+</div>
+
+<div class="card hidden" id="step4">
+    <p>
+        Every moment with you makes my life more beautiful.  
+        You are my happiness, my strength, my home.
+    </p>
+    <button onclick="nextStep(4)">Continue 💖</button>
+</div>
+
+<div class="card hidden" id="step5">
+    <h2>Do you believe we are meant to be forever?</h2>
+    <button onclick="nextStep(5)">Yes 💍</button>
+    <button onclick="nextStep(5)">Definitely Yes ❤️</button>
+</div>
+
+<div class="card hidden" id="step6">
+    <h1>💖 My Love 💖</h1>
+    <p>From <strong>AVINASH</strong></p>
+    <h2>Will you be my Valentine… forever?</h2>
+    <button onclick="yesAnswer()">YES ❤️</button>
+    <button class="no-btn disabled-btn" disabled onmouseover="moveNo(this)">NO 😜</button>
+</div>
+
+<div class="card hidden" id="final">
+    <h1>💍 She Said YES! 💍</h1>
+    <p>I love you endlessly, <strong>SNEHAL</strong> ❤️</p>
+</div>
+
+<script>
+    function nextStep(step) {
+    const music = document.getElementById("bgMusic");
+
+    if (music.paused) {
+        music.volume = 0.6;
+        music.play().catch(err => console.log(err));
+        let vol = 0;
+        music.volume = 0;
+        const fade = setInterval(() => {
+            if (vol < 0.6) {
+                vol += 0.05;
+                music.volume = vol;
+            } else {
+                clearInterval(fade);
+            }
+        }, 200);
+
+    }
+
+    // Hide countdown after first click
+    if (step === 1) {
+        document.getElementById("countdown").style.display = "none";
+    }
+
+    document.getElementById("step" + step).classList.add("hidden");
+    document.getElementById("step" + (step + 1)).classList.remove("hidden");
+}
+
+
+    function moveNo(btn) {
+        btn.style.left = Math.random() * 200 - 100 + "px";
+        btn.style.top = Math.random() * 200 - 100 + "px";
+    }
+
+    function yesAnswer() {
+        document.getElementById("step6").classList.add("hidden");
+        document.getElementById("final").classList.remove("hidden");
+    }
+
+    /* Create floating hearts */
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 8000);
+    }, 400);
+
+    /* 💘 Valentine Countdown */
+const valentineDate = new Date("February 14, 2026 00:00:00").getTime();
+
+setInterval(() => {
+    const now = new Date().getTime();
+    const distance = valentineDate - now;
+
+    if (distance < 0) {
+        document.getElementById("countdown").innerHTML =
+            "❤️ It’s Valentine’s Day ❤️";
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+        `⏳ ${days} days ${hours}h ${minutes}m ${seconds}s to Valentine’s Day ❤️`;
+}, 1000);
+
+</script>
+
+</body>
+</html>
