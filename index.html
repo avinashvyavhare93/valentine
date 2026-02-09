@@ -92,7 +92,7 @@
 <body>
 
 <!-- 🎵 Background Music -->
-<audio id="bgMusic" loop preload="auto">
+<audio id="bgMusic" loop>
     <source src="romantic.mp3" type="audio/mpeg">
 </audio>
 
@@ -152,26 +152,28 @@
 </div>
 
 <script>
-    function nextStep(step) {
+    <script>
+let musicStarted = false;
+
+function nextStep(step) {
     const music = document.getElementById("bgMusic");
 
-    if (music.paused) {
-        music.volume = 0.6;
-        music.play().catch(err => console.log(err));
-        let vol = 0;
+    if (!musicStarted) {
         music.volume = 0;
-        const fade = setInterval(() => {
-            if (vol < 0.6) {
-                vol += 0.05;
-                music.volume = vol;
-            } else {
-                clearInterval(fade);
-            }
-        }, 200);
+            music.play().then(() => {
+                let vol = 0;
+                const fade = setInterval(() => {
+                    if (vol < 0.6) {
+                        vol += 0.05;
+                        music.volume = vol;
+                    } else {
+                        clearInterval(fade);
+                    }
+                }, 200);
+            });
 
     }
 
-    // Hide countdown after first click
     if (step === 1) {
         document.getElementById("countdown").style.display = "none";
     }
@@ -179,6 +181,8 @@
     document.getElementById("step" + step).classList.add("hidden");
     document.getElementById("step" + (step + 1)).classList.remove("hidden");
 }
+</script>
+
 
 
     function moveNo(btn) {
@@ -231,4 +235,5 @@ setInterval(() => {
 
 </body>
 </html>
+
 
