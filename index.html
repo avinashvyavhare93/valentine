@@ -6,11 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-    body {
+body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background:
-        linear-gradient(rgba(255, 117, 140, 0.75), rgba(255, 126, 179, 0.75)),
+        linear-gradient(rgba(255,117,140,0.75), rgba(255,126,179,0.75)),
         url("snehal.jpg") no-repeat center center / cover;
     color: #fff;
     overflow: hidden;
@@ -21,71 +21,52 @@
     text-align: center;
 }
 
+.card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: fadeIn 1s ease;
+    z-index: 10;
+    position: relative;
+}
 
-    .card {
-        background: rgba(255,255,255,0.15);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 30px;
-        width: 90%;
-        max-width: 420px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        animation: fadeIn 1s ease;
-        z-index: 10;
-    }
+button {
+    background: #fff;
+    color: #ff4d6d;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    margin: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-    h1, h2 {
-        margin-bottom: 15px;
-    }
+button:hover { transform: scale(1.08); }
+.hidden { display: none; }
 
-    p {
-        font-size: 18px;
-        margin-bottom: 25px;
-    }
+.no-btn { position: absolute; }
 
-    button {
-        background: #fff;
-        color: #ff4d6d;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 30px;
-        font-size: 16px;
-        margin: 8px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+.heart {
+    position: absolute;
+    bottom: -20px;
+    animation: float 8s linear infinite;
+    opacity: 0.8;
+}
 
-    button:hover {
-        transform: scale(1.08);
-    }
+@keyframes float {
+    from { transform: translateY(0); opacity: 0; }
+    to { transform: translateY(-100vh); opacity: 0; }
+}
 
-    .hidden {
-        display: none;
-    }
-
-    .no-btn {
-        position: absolute;
-    }
-
-    /* Floating Hearts */
-    .heart {
-        position: absolute;
-        bottom: -20px;
-        font-size: 20px;
-        animation: float 8s linear infinite;
-        opacity: 0.8;
-    }
-
-    @keyframes float {
-        0% { transform: translateY(0); opacity: 0; }
-        10% { opacity: 1; }
-        100% { transform: translateY(-100vh); opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(20px);}
-        to {opacity: 1; transform: translateY(0);}
-    }
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
 </style>
 </head>
 
@@ -96,17 +77,12 @@
     <source src="romantic.mp3" type="audio/mpeg">
 </audio>
 
-
 <div class="card" id="step1">
-    <div id="countdown" style="font-size:18px; margin-bottom:20px;">
-    ⏳ Counting moments till Valentine’s Day...
-</div>
-
+    <div id="countdown" style="margin-bottom:20px;">
+        ⏳ Counting moments till Valentine’s Day...
+    </div>
     <h1>Hey ❤️</h1>
-    <p>
-        Dear <strong>SNEHAL</strong>,  
-        I have something special to ask you today…
-    </p>
+    <p>Dear <strong>SNEHAL</strong>, I have something special to ask you…</p>
     <button onclick="nextStep(1)">Start 💕</button>
 </div>
 
@@ -125,10 +101,7 @@
 </div>
 
 <div class="card hidden" id="step4">
-    <p>
-        Every moment with you makes my life more beautiful.  
-        You are my happiness, my strength, my home.
-    </p>
+    <p>You are my happiness, my strength, my home.</p>
     <button onclick="nextStep(4)">Continue 💖</button>
 </div>
 
@@ -143,7 +116,7 @@
     <p>From <strong>AVINASH</strong></p>
     <h2>Will you be my Valentine… forever?</h2>
     <button onclick="yesAnswer()">YES ❤️</button>
-    <button class="no-btn disabled-btn" disabled onmouseover="moveNo(this)">NO 😜</button>
+    <button class="no-btn" disabled onmouseover="moveNo(this)">NO 😜</button>
 </div>
 
 <div class="card hidden" id="final">
@@ -152,87 +125,70 @@
 </div>
 
 <script>
+/* ✅ FIXED: Valentine Date */
+const valentineDate = new Date("February 14, 2026 00:00:00").getTime();
+
 let musicStarted = false;
 
 function nextStep(step) {
     const music = document.getElementById("bgMusic");
 
     if (!musicStarted) {
-        music.volume = 1.0;   // 🔊 FULL VOLUME
-        music.play().catch(err => console.log("Autoplay blocked:", err));
+        music.volume = 1.0;   // FULL VOLUME
+        music.play();
         musicStarted = true;
     }
 
     if (step === 1) {
-        const cd = document.getElementById("countdown");
-        if (cd) cd.style.display = "none";
+        document.getElementById("countdown").style.display = "none";
     }
 
     document.getElementById("step" + step).classList.add("hidden");
     document.getElementById("step" + (step + 1)).classList.remove("hidden");
 }
 
+function moveNo(btn) {
+    const card = btn.parentElement;
+    btn.style.left = Math.random() * (card.clientWidth - btn.offsetWidth) + "px";
+    btn.style.top  = Math.random() * (card.clientHeight - btn.offsetHeight) + "px";
+}
 
+function yesAnswer() {
+    document.getElementById("step6").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+}
 
-    function moveNo(btn) {
-        const card = btn.parentElement;
-        const maxX = card.clientWidth - btn.offsetWidth;
-        const maxY = card.clientHeight - btn.offsetHeight;
-    
-        const x = Math.random() * maxX;
-        const y = Math.random() * maxY;
-    
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
+/* Floating hearts */
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 15 + 15) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+}, 600);
+
+/* Countdown */
+setInterval(() => {
+    const el = document.getElementById("countdown");
+    if (!el) return;
+
+    const now = Date.now();
+    const d = valentineDate - now;
+    if (d < 0) {
+        el.innerHTML = "❤️ It’s Valentine’s Day ❤️";
+        return;
     }
 
-    function yesAnswer() {
-        document.getElementById("step6").classList.add("hidden");
-        document.getElementById("final").classList.remove("hidden");
-    }
+    const days = Math.floor(d / 86400000);
+    const hrs  = Math.floor((d % 86400000) / 3600000);
+    const min  = Math.floor((d % 3600000) / 60000);
+    const sec  = Math.floor((d % 60000) / 1000);
 
-    /* Create floating hearts */
-    setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerText = "💖";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 15 + 15) + "px";
-    
-        document.body.appendChild(heart);
-    
-        setTimeout(() => heart.remove(), 8000);
-    }, 600);
-
-    /* 💘 Valentine Countdown */
-        const countdownEl = document.getElementById("countdown");
-        
-        setInterval(() => {
-            if (!countdownEl) return;
-        
-            const now = Date.now();
-            const distance = valentineDate - now;
-        
-            if (distance < 0) {
-                countdownEl.innerHTML = "❤️ It’s Valentine’s Day ❤️";
-                return;
-            }
-        
-            const days = Math.floor(distance / 86400000);
-            const hours = Math.floor((distance % 86400000) / 3600000);
-            const minutes = Math.floor((distance % 3600000) / 60000);
-            const seconds = Math.floor((distance % 60000) / 1000);
-        
-            countdownEl.innerHTML =
-                `⏳ ${days} days ${hours}h ${minutes}m ${seconds}s to Valentine’s Day ❤️`;
-        }, 1000);
-
-
+    el.innerHTML = `⏳ ${days} days ${hrs}h ${min}m ${sec}s to Valentine’s Day ❤️`;
+}, 1000);
 </script>
 
 </body>
 </html>
-
-
-
-
