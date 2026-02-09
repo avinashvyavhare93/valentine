@@ -64,7 +64,7 @@
     }
 
     .no-btn {
-        position: relative;
+        position: absolute;
     }
 
     /* Floating Hearts */
@@ -152,7 +152,6 @@
 </div>
 
 <script>
-    <script>
 let musicStarted = false;
 
 function nextStep(step) {
@@ -181,13 +180,19 @@ function nextStep(step) {
     document.getElementById("step" + step).classList.add("hidden");
     document.getElementById("step" + (step + 1)).classList.remove("hidden");
 }
-</script>
 
 
 
     function moveNo(btn) {
-        btn.style.left = Math.random() * 200 - 100 + "px";
-        btn.style.top = Math.random() * 200 - 100 + "px";
+        const card = btn.parentElement;
+        const maxX = card.clientWidth - btn.offsetWidth;
+        const maxY = card.clientHeight - btn.offsetHeight;
+    
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+    
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
     }
 
     function yesAnswer() {
@@ -199,41 +204,43 @@ function nextStep(step) {
     setInterval(() => {
         const heart = document.createElement("div");
         heart.className = "heart";
-        heart.innerHTML = "💖";
+        heart.innerText = "💖";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        heart.style.fontSize = (Math.random() * 15 + 15) + "px";
+    
         document.body.appendChild(heart);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 8000);
-    }, 400);
+    
+        setTimeout(() => heart.remove(), 8000);
+    }, 600);
 
     /* 💘 Valentine Countdown */
-const valentineDate = new Date("February 14, 2026 00:00:00").getTime();
+        const countdownEl = document.getElementById("countdown");
+        
+        setInterval(() => {
+            if (!countdownEl) return;
+        
+            const now = Date.now();
+            const distance = valentineDate - now;
+        
+            if (distance < 0) {
+                countdownEl.innerHTML = "❤️ It’s Valentine’s Day ❤️";
+                return;
+            }
+        
+            const days = Math.floor(distance / 86400000);
+            const hours = Math.floor((distance % 86400000) / 3600000);
+            const minutes = Math.floor((distance % 3600000) / 60000);
+            const seconds = Math.floor((distance % 60000) / 1000);
+        
+            countdownEl.innerHTML =
+                `⏳ ${days} days ${hours}h ${minutes}m ${seconds}s to Valentine’s Day ❤️`;
+        }, 1000);
 
-setInterval(() => {
-    const now = new Date().getTime();
-    const distance = valentineDate - now;
-
-    if (distance < 0) {
-        document.getElementById("countdown").innerHTML =
-            "❤️ It’s Valentine’s Day ❤️";
-        return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("countdown").innerHTML =
-        `⏳ ${days} days ${hours}h ${minutes}m ${seconds}s to Valentine’s Day ❤️`;
-}, 1000);
 
 </script>
 
 </body>
 </html>
+
 
 
