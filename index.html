@@ -158,23 +158,14 @@ function nextStep(step) {
     const music = document.getElementById("bgMusic");
 
     if (!musicStarted) {
-        music.volume = 0;
-            music.play().then(() => {
-                let vol = 0;
-                const fade = setInterval(() => {
-                    if (vol < 0.6) {
-                        vol += 0.05;
-                        music.volume = vol;
-                    } else {
-                        clearInterval(fade);
-                    }
-                }, 200);
-            });
-
+        music.volume = 1.0;   // 🔊 FULL VOLUME
+        music.play().catch(err => console.log("Autoplay blocked:", err));
+        musicStarted = true;
     }
 
     if (step === 1) {
-        document.getElementById("countdown").style.display = "none";
+        const cd = document.getElementById("countdown");
+        if (cd) cd.style.display = "none";
     }
 
     document.getElementById("step" + step).classList.add("hidden");
@@ -241,6 +232,7 @@ function nextStep(step) {
 
 </body>
 </html>
+
 
 
 
